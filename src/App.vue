@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <textarea rows="4" cols="50" @input="onInputChange" v-model="search">
-    </textarea>
+    <textarea rows="4" cols="50" @input="onInputChange" v-model="search"> </textarea>
     <p><span v-html="rawHtml"></span></p>
     <ul>
       <li v-if="blackListed.length">BlackListed: {{ blackListed }}</li>
@@ -12,12 +11,12 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 export default {
   data() {
     return {
-      search: "",
-      rawHtml: "",
+      search: '',
+      rawHtml: '',
       blackListed: [],
       grayListed: [],
       undefinedList: [],
@@ -36,28 +35,24 @@ export default {
         return;
       }
 
-      axios
-        .post("https://api.sikayetvar.com/dictionary/phrase/check", this.search)
-        .then((res) => {
-          console.log(res.data);
-          let stringArray = this.search.split(" ");
-          this.blackListed = res.data.blackListed;
-          this.grayListed = res.data.grayListed;
-          this.undefinedList = res.data.undefined;
-          stringArray.forEach((element, index) => {
-            if (this.blackListed.find((a) => a == element)) {
-              stringArray[index] =
-                "<span style='color: red'><del>" + element + "</del></span>";
-            } else if (this.grayListed.find((a) => a == element)) {
-              stringArray[index] = "<a>" + element + "</a>";
-            } else if (this.undefinedList.find((a) => a == element)) {
-              stringArray[index] =
-                "<u class='greyUnderline'>" + element + "</u>";
-            }
-          });
-
-          this.rawHtml = stringArray.toString().replaceAll(",", " ");
+      axios.post('https://api.sikayetvar.com/dictionary/phrase/check', this.search).then((res) => {
+        console.log(res.data);
+        let stringArray = this.search.split(' ');
+        this.blackListed = res.data.blackListed;
+        this.grayListed = res.data.grayListed;
+        this.undefinedList = res.data.undefined;
+        stringArray.forEach((element, index) => {
+          if (this.blackListed.find((a) => a == element)) {
+            stringArray[index] = "<span style='color: red'><del>" + element + '</del></span>';
+          } else if (this.grayListed.find((a) => a == element)) {
+            stringArray[index] = '<a>' + element + '</a>';
+          } else if (this.undefinedList.find((a) => a == element)) {
+            stringArray[index] = "<u class='greyUnderline'>" + element + '</u>';
+          }
         });
+
+        this.rawHtml = stringArray.toString().replaceAll(',', ' ');
+      });
     },
   },
 };
@@ -80,7 +75,7 @@ export default {
 
 a::after {
   display: block;
-  content: "3";
+  content: '3';
   width: 100%;
   height: 1px;
   background: black;
